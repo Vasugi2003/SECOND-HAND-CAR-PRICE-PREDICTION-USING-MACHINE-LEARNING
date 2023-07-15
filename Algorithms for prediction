@@ -1,412 +1,242 @@
 import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.svm import SVC
-from sklearn.metrics import accuracy_score
-
-# Load dataset
-dataset = pd.read_csv('/content/station_day.csv')
-
-
-import matplotlib
-import matplotlib .pyplot as plt
-import seaborn as sns
-import missingno as msno
-
-dataset.head()
-
-msno.bar(dataset)
-#Bar chart
-
-sns.catplot(x = "AQI_Bucket", kind= "count", palette = "ch: 2.87", height=5, aspect=1.1, data = dataset) 
-
-#drop nan values
-
-dataset = dataset.dropna(subset=["PM2.5","PM10","NO","NO2","NOx","NH3","CO","SO2","O3","Benzene","Toluene","Xylene","AQI","AQI_Bucket"])
-
-X = dataset.drop(['AQI_Bucket','StationId','Date'], axis=1)
-dataset['AQI_Bucket'].value_counts()
-
-#label encoding
-from sklearn.preprocessing import LabelEncoder
-class_labels = dataset.AQI_Bucket
-label_encoder = LabelEncoder()
-label_encoder.fit(class_labels)
-continuous_labels = label_encoder.transform(class_labels)
-print(class_labels.unique())
-print(continuous_labels)
-
-y = continuous_labels
-print(X)
-print(y)
-
-#train test spliting
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=30)
-
-#standard scalar
-from sklearn.preprocessing import StandardScaler
-xt = StandardScaler().fit_transform(X)
-
-#Support vector machines
-
-clf = SVC(kernel='linear')
-clf.kernel
-clf.fit(X_train, y_train)
-y_pred = clf.predict(X_test)
-accuracy = accuracy_score(y_test, y_pred)
-print('Accuracy:',accuracy)
-
-#performance metrics used
-from sklearn.metrics import mean_squared_error
-mse = mean_squared_error(y_test, y_pred)
-print("MEAN SQUARED ERROR =",mse)
-
-from sklearn.metrics import mean_absolute_error
-mae = mean_absolute_error(y_test, y_pred)
-print("MEAN ABSOLUTE ERROR =",mae)
-
-from sklearn.metrics import precision_score
-precision = precision_score(y_test, y_pred, average='weighted')
-print("PRECISION =",precision)
-
-from sklearn.metrics import recall_score
-recall = recall_score(y_test, y_pred,average='weighted')
-print("RECALL VALUE = ",recall)
-
-from sklearn.metrics import f1_score
-f1 = f1_score(y_test, y_pred,average='weighted')
-print("F1 SCORE =",f1)
-
-from sklearn.metrics import confusion_matrix
-confusion_matrix = confusion_matrix(y_test, y_pred)
-print(confusion_matrix)
-
-#Desicion tree classifier
-from sklearn.tree import DecisionTreeClassifier
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.4, random_state=48)
-clf = DecisionTreeClassifier(max_depth=1)
-clf.fit(X_train, y_train)
-y_pred = clf.predict(X_test)
-
-accuracy = accuracy_score(y_test, y_pred)
-acc = clf.score(X_test,y_test)
-print('Accuracy:',accuracy)
-print(acc)
-
-from sklearn.metrics import mean_squared_error
-mse = mean_squared_error(y_test, y_pred)
-print("MEAN SQUARED ERROR =",mse)
-
-from sklearn.metrics import mean_absolute_error
-mae = mean_absolute_error(y_test, y_pred)
-print("MEAN ABSOLUTE ERROR =",mae)
-
-from sklearn.metrics import precision_score
-precision = precision_score(y_test, y_pred, average='weighted')
-print("PRECISION =",precision)
-
-from sklearn.metrics import recall_score
-recall = recall_score(y_test, y_pred,average='weighted')
-print("RECALL VALUE = ",recall)
-
-from sklearn.metrics import f1_score
-f1 = f1_score(y_test, y_pred,average='weighted')
-print("F1 SCORE =",f1)
-
-from sklearn.metrics import confusion_matrix
-confusion_matrix = confusion_matrix(y_test, y_pred)
-print(confusion_matrix)
-
-#Random forest
-from sklearn.ensemble import RandomForestClassifier
-clf = RandomForestClassifier(n_estimators=100)
-clf.fit(X_train, y_train)
-y_pred = clf.predict(X_test)
-accuracy = accuracy_score(y_test, y_pred)
-print('Accuracy:',accuracy)
-
-#performance metrics
-from sklearn.metrics import mean_squared_error
-mse = mean_squared_error(y_test, y_pred)
-print("MEAN SQUARED ERROR =",mse)
-
-from sklearn.metrics import mean_absolute_error
-mae = mean_absolute_error(y_test, y_pred)
-print("MEAN ABSOLUTE ERROR =",mae)
-
-from sklearn.metrics import precision_score
-precision = precision_score(y_test, y_pred, average='weighted')
-print("PRECISION =",precision)
-
-from sklearn.metrics import recall_score
-recall = recall_score(y_test, y_pred,average='weighted')
-print("RECALL VALUE = ",recall)
-
-from sklearn.metrics import f1_score
-f1 = f1_score(y_test, y_pred,average='weighted')
-print("F1 SCORE =",f1)
-from sklearn.metrics import confusion_matrix
-confusion_matrix = confusion_matrix(y_test, y_pred)
-print(confusion_matrix)
-
-#K nearest neighbour
-
-from sklearn.neighbors import KNeighborsClassifier
-clf = KNeighborsClassifier(n_neighbors=5)
-clf.fit(X_train, y_train)
-y_pred = clf.predict(X_test)
-accuracy = accuracy_score(y_test, y_pred)
-print('Accuracy:',accuracy)
-
-#performance metrics used
-from sklearn.metrics import mean_squared_error
-mse = mean_squared_error(y_test, y_pred)
-print("MEAN SQUARED ERROR =",mse)
-
-from sklearn.metrics import mean_absolute_error
-mae = mean_absolute_error(y_test, y_pred)
-print("MEAN ABSOLUTE ERROR =",mae)
-
-from sklearn.metrics import precision_score
-precision = precision_score(y_test, y_pred, average='weighted')
-print("PRECISION =",precision)
-
-from sklearn.metrics import recall_score
-recall = recall_score(y_test, y_pred,average='weighted')
-print("RECALL VALUE = ",recall)
-
-from sklearn.metrics import f1_score
-f1 = f1_score(y_test, y_pred,average='weighted')
-print("F1 SCORE =",f1)
-from sklearn.metrics import confusion_matrix
-confusion_matrix = confusion_matrix(y_test, y_pred)
-print(confusion_matrix)
-
-#XG BOOST 
-import xgboost as xgb
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score
-
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=16)
-model = xgb.XGBClassifier(objective='multi:softmax', num_class=6)
-model.fit(X_train, y_train)
-y_pred = model.predict(X_test)
-accuracy = accuracy_score(y_test, y_pred)
-print("Accuracy: %.2f%%" % (accuracy * 100.0))
-
-from sklearn.metrics import mean_squared_error
-mse = mean_squared_error(y_test, y_pred)
-print("MEAN SQUARED ERROR =",mse)
-
-from sklearn.metrics import mean_absolute_error
-mae = mean_absolute_error(y_test, y_pred)
-print("MEAN ABSOLUTE ERROR =",mae)
-
-from sklearn.metrics import precision_score
-precision = precision_score(y_test, y_pred, average='weighted')
-print("PRECISION =",precision)
-
-from sklearn.metrics import recall_score
-recall = recall_score(y_test, y_pred,average='weighted')
-print("RECALL VALUE = ",recall)
-
-from sklearn.metrics import f1_score
-f1 = f1_score(y_test, y_pred,average='weighted')
-print("F1 SCORE =",f1)
-from sklearn.metrics import confusion_matrix
-confusion_matrix = confusion_matrix(y_test, y_pred)
-print(confusion_matrix)
-
-#naive bayes
-from sklearn.naive_bayes import MultinomialNB
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score
-
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
-model = MultinomialNB()
-model.fit(X_train, y_train)
-y_pred = model.predict(X_test)
-accuracy = accuracy_score(y_test, y_pred)
-print("Accuracy: %.2f%%" % (accuracy * 100.0))
-
-from sklearn.metrics import mean_squared_error
-mse = mean_squared_error(y_test, y_pred)
-print("MEAN SQUARED ERROR =",mse)
-
-from sklearn.metrics import mean_absolute_error
-mae = mean_absolute_error(y_test, y_pred)
-print("MEAN ABSOLUTE ERROR =",mae)
-
-from sklearn.metrics import precision_score
-precision = precision_score(y_test, y_pred, average='weighted')
-print("PRECISION =",precision)
-
-from sklearn.metrics import recall_score
-recall = recall_score(y_test, y_pred,average='weighted')
-print("RECALL VALUE = ",recall)
-
-from sklearn.metrics import f1_score
-f1 = f1_score(y_test, y_pred,average='weighted')
-print("F1 SCORE =",f1)
-from sklearn.metrics import confusion_matrix
-confusion_matrix = confusion_matrix(y_test, y_pred)
-print(confusion_matrix)
-
-#voting classifier
-from sklearn.ensemble import VotingClassifier
-from sklearn.ensemble import RandomForestClassifier
-# from sklearn.ensemble import GradientBoostingClassifier
-# from sklearn.svm import SVC
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-# Define the individual models
-model_rf = RandomForestClassifier()
-# Create the voting ensemble classifier
-ensemble_model = VotingClassifier(estimators=[
-    ('rf', model_rf),
-    # ('gb', model_gb),
-    # ('svm', model_svm)
-], voting='hard')  
-
-ensemble_model.fit(X_train, y_train)
-y_pred = ensemble_model.predict(X_test)
-accuracy = accuracy_score(y_test, y_pred)
-print("Accuracy: %.2f%%" % (accuracy * 100.0))
-
-#stacking
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.ensemble import GradientBoostingClassifier
-from sklearn.svm import SVC
-from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score
 import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import os
+import warnings
+%matplotlib inline
+pd.set_option("display.max_rows", None,"display.max_columns", None)
+warnings.simplefilter(action='ignore')
+plt.style.use('seaborn')
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+#READ DATASET
+df_main = pd.read_csv('/content/car_data.csv')
 
-# Define the base models
-model_rf = RandomForestClassifier()
-model_gb = GradientBoostingClassifier()
-model_svm = SVC(probability=True)
-model_rf.fit(X_train, y_train)
-model_gb.fit(X_train, y_train)
-model_svm.fit(X_train, y_train)
-pred_rf = model_rf.predict(X_train)
-pred_gb = model_gb.predict(X_train)
-pred_svm = model_svm.predict(X_train)
+df_main.head()
+df_main.shape
+df_main.info()
+df_main.describe()
 
-stacking_train = np.column_stack((pred_rf, pred_gb, pred_svm))
+#CHACK FOR NAN VALUES
 
-meta_model = LogisticRegression()
-meta_model.fit(stacking_train, y_train)
+df_main.isna().sum()
 
-pred_rf_test = model_rf.predict(X_test)
-pred_gb_test = model_gb.predict(X_test)
-pred_svm_test = model_svm.predict(X_test)
+df_main['Age'] = 2022 - df_main['Year']
+df_main.drop('Year',axis=1,inplace = True)
+df_main.rename(columns = {'Selling_Price':'Selling_Price(lacs)','Present_Price':'Present_Price(lacs)','Owner':'Past_Owners'},inplace = True)
+df_main.columns
 
-stacking_test = np.column_stack((pred_rf_test, pred_gb_test, pred_svm_test))
-meta_pred = meta_model.predict(stacking_test)
-accuracy = accuracy_score(y_test, meta_pred)
-print("Accuracy: %.2f%%" % (accuracy * 100.0))
+#PLOT1
+cat_cols = ['Fuel_Type','Seller_Type','Transmission','Past_Owners']
+i=0
+while i < 4:
+    fig = plt.figure(figsize=[10,4])
+    #ax1 = fig.add_subplot(121)
+    #ax2 = fig.add_subplot(122)
+    
+    #ax1.title.set_text(cat_cols[i])
+    plt.subplot(1,2,1)
+    sns.countplot(x=cat_cols[i], data=df_main)
+    i += 1
+    
+    #ax2.title.set_text(cat_cols[i])
+    plt.subplot(1,2,2)
+    sns.countplot(x=cat_cols[i], data=df_main)
+    i += 1
+    
+    plt.show()
 
-#resampling techniques
-from imblearn.over_sampling import RandomOverSampler
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import classification_report
-from sklearn.tree import DecisionTreeClassifier
+#PLOT 2
+num_cols = ['Selling_Price(lacs)','Present_Price(lacs)','Kms_Driven','Age']
+i=0
+while i < 4:
+    fig = plt.figure(figsize=[13,3])
+    #ax1 = fig.add_subplot(121)
+    #ax2 = fig.add_subplot(122)
+    
+    #ax1.title.set_text(num_cols[i])
+    plt.subplot(1,2,1)
+    sns.boxplot(x=num_cols[i], data=df_main)
+    i += 1
+    
+    #ax2.title.set_text(num_cols[i])
+    plt.subplot(1,2,2)
+    sns.boxplot(x=num_cols[i], data=df_main)
+    i += 1
+    
+    plt.show()
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-oversampler = RandomOverSampler(random_state=42)
-X_train_resampled, y_train_resampled = oversampler.fit_resample(X_train, y_train)
-model = DecisionTreeClassifier()
-model.fit(X_train_resampled, y_train_resampled)
-y_pred = model.predict(X_test)
-print(classification_report(y_test, y_pred))
-accuracy = accuracy_score(y_test,y_pred)
-print(accuracy*100)
+df_main[df_main['Present_Price(lacs)'] > df_main['Present_Price(lacs)'].quantile(0.99)]
 
-#clustering
-import pandas as pd
-from sklearn.cluster import KMeans
-from sklearn.preprocessing import StandardScaler
+df_main[df_main['Selling_Price(lacs)'] > df_main['Selling_Price(lacs)'].quantile(0.99)]
 
-columns_for_clustering = ['PM2.5', 'PM10', 'NO', 'NO2', 'NOx', 'NH3', 'CO', 'SO2', 'O3', 'Benzene', 'Toluene', 'Xylene']
-features = dataset[columns_for_clustering]
+df_main[df_main['Kms_Driven'] > df_main['Kms_Driven'].quantile(0.99)]
 
-scaler = StandardScaler()
-scaled_features = scaler.fit_transform(features)
-kmeans = KMeans(n_clusters=4, random_state=42)
-cluster_labels = kmeans.fit_predict(scaled_features)
-dataset['Cluster'] = cluster_labels
-print(dataset['Cluster'].value_counts())
-
-#visualization
-plt.scatter(dataset['AQI_Bucket'], dataset['NO2'], c=dataset['Cluster'], cmap='viridis')
-plt.xlabel('PM2.5')
-plt.ylabel('NO2')
-plt.title('Air Pollution Clusters')
+#HEAT MAP
+sns.heatmap(df_main.corr(), annot=True, cmap="RdBu")
 plt.show()
 
-#test data to test trained model
+#CORRELATION
+df_main.corr()['Selling_Price(lacs)']
+df_main.pivot_table(values='Selling_Price(lacs)', index = 'Seller_Type', columns= 'Fuel_Type')
+df_main.pivot_table(values='Selling_Price(lacs)', index = 'Seller_Type', columns= 'Transmission')
+df_main.drop(labels='Car_Name',axis= 1, inplace = True)
+df_main.head()
+df_main = pd.get_dummies(data = df_main,drop_first=True) 
+df_main.head()
 
-#test data is
-test_data = [80.65,120.88,6.60,44.9,11,13.98,0.88,20,111.11,0.45,3.98,0.22,200]
+y = df_main['Selling_Price(lacs)']
+X = df_main.drop('Selling_Price(lacs)',axis=1)
 
-#svm model
-from sklearn.svm import SVC
-svm = SVC(kernel='linear')
-svm.fit(X_train,y_train)
-prediction = svm.predict([test_data])
-print("predicted value = ",prediction[0])
+#TRAIN TEST DATA SPLITTING
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1)
+print("x train: ",X_train.shape)
+print("x test: ",X_test.shape)
+print("y train: ",y_train.shape)
+print("y test: ",y_test.shape)
 
-label_map = {
-    0: 'Moderate',
-    1: 'poor',
-    2: 'very poor',
-    3: 'satisfactory',
-    4: 'good',
-    5: 'severe'
-}
+from sklearn.metrics import r2_score
+from sklearn.model_selection import cross_val_score
 
-from sklearn.svm import SVC
-svm = SVC(kernel='linear')
-svm.fit(X_train,y_train)
-prediction = svm.predict([test_data])
-print("predicted value = ",prediction[0])
+CV = []
+R2_train = []
+R2_test = []
 
-# Convert the integer labels to string labels using the label map
-y_pred_strings = [label_map[label] for label in prediction]
+def car_pred_model(model,model_name):
+    # Training model
+    model.fit(X_train,y_train)
+            
+    # R2 score of train set
+    y_pred_train = model.predict(X_train)
+    R2_train_model = r2_score(y_train,y_pred_train)
+    R2_train.append(round(R2_train_model,2))
+    
+    # R2 score of test set
+    y_pred_test = model.predict(X_test)
+    R2_test_model = r2_score(y_test,y_pred_test)
+    R2_test.append(round(R2_test_model,2))
+    
+    # R2 mean of train set using Cross validation
+    cross_val = cross_val_score(model ,X_train ,y_train ,cv=5)
+    cv_mean = cross_val.mean()
+    CV.append(round(cv_mean,2))
+    
+    # Printing results
+    print("Train R2-score :",round(R2_train_model,2))
+    print("Test R2-score :",round(R2_test_model,2))
+    print("Train CV scores :",cross_val)
+    print("Train CV mean :",round(cv_mean,2))
+    
+    # Plotting Graphs 
+    # Residual Plot of train data
+    fig, ax = plt.subplots(1,2,figsize = (10,4))
+    ax[0].set_title('Residual Plot of Train samples')
+    sns.distplot((y_train-y_pred_train),hist = False,ax = ax[0])
+    ax[0].set_xlabel('y_train - y_pred_train')
+    
+    # Y_test vs Y_train scatter plot
+    ax[1].set_title('y_test vs y_pred_test')
+    ax[1].scatter(x = y_test, y = y_pred_test)
+    ax[1].set_xlabel('y_test')
+    ax[1].set_ylabel('y_pred_test')
+    
+    plt.show()
 
-# Print the predicted labels as string labels
-print("Predicted labels:", y_pred_strings)
+#LINEAR REGRESSION
+from sklearn.linear_model import LinearRegression
+regressor = LinearRegression()
 
+lr = LinearRegression()
+car_pred_model(lr,"Linear_regressor.pkl")
 
+#RIDGE
+from sklearn.linear_model import Ridge
+from sklearn.model_selection import RandomizedSearchCV
 
+# Creating Ridge model object
+rg = Ridge()
+# range of alpha 
+alpha = np.logspace(-3,3,num=14)
 
+# Creating RandomizedSearchCV to find the best estimator of hyperparameter
+rg_rs = RandomizedSearchCV(estimator = rg, param_distributions = dict(alpha=alpha))
+car_pred_model(rg_rs,"ridge.pkl")
 
+#LASSO REGRESSOR
+from sklearn.linear_model import Lasso
+from sklearn.model_selection import RandomizedSearchCV
 
+ls = Lasso()
+alpha = np.logspace(-3,3,num=14) # range for alpha
+ls_rs = RandomizedSearchCV(estimator = ls, param_distributions = dict(alpha=alpha))
+car_pred_model(ls_rs,"lasso.pkl")
 
+#RANDOM FOREST REGRESSOR
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.model_selection import RandomizedSearchCV
 
+rf = RandomForestRegressor()
 
+# Number of trees in Random forest
+n_estimators=list(range(500,1000,100))
+# Maximum number of levels in a tree
+max_depth=list(range(4,9,4))
+# Minimum number of samples required to split an internal node
+min_samples_split=list(range(4,9,2))
+# Minimum number of samples required to be at a leaf node.
+min_samples_leaf=[1,2,5,7]
+# Number of fearures to be considered at each split
+max_features=['auto','sqrt']
 
+# Hyperparameters dict
+param_grid = {"n_estimators":n_estimators,
+              "max_depth":max_depth,
+              "min_samples_split":min_samples_split,
+              "min_samples_leaf":min_samples_leaf,
+              "max_features":max_features}
 
+rf_rs = RandomizedSearchCV(estimator = rf, param_distributions = param_grid)
 
+car_pred_model(rf_rs,'random_forest.pkl')
+print(rf_rs.best_estimator_)
 
+#GRADIENT BOOSTING REGRESSOR
+from sklearn.ensemble import GradientBoostingRegressor
+from sklearn.model_selection import RandomizedSearchCV
 
+gb = GradientBoostingRegressor()
 
+# Rate at which correcting is being made
+learning_rate = [0.001, 0.01, 0.1, 0.2]
+# Number of trees in Gradient boosting
+n_estimators=list(range(500,1000,100))
+# Maximum number of levels in a tree
+max_depth=list(range(4,9,4))
+# Minimum number of samples required to split an internal node
+min_samples_split=list(range(4,9,2))
+# Minimum number of samples required to be at a leaf node.
+min_samples_leaf=[1,2,5,7]
+# Number of fearures to be considered at each split
+max_features=['auto','sqrt']
 
+# Hyperparameters dict
+param_grid = {"learning_rate":learning_rate,
+              "n_estimators":n_estimators,
+              "max_depth":max_depth,
+              "min_samples_split":min_samples_split,
+              "min_samples_leaf":min_samples_leaf,
+              "max_features":max_features}
 
+gb_rs = RandomizedSearchCV(estimator = gb, param_distributions = param_grid)
 
+car_pred_model(gb_rs,"gradient_boosting.pkl")
 
-
-
-
-
-
-
-
+#FINALL ACCURACIES OF ALL MODELS
+Technique = ["LinearRegression","Ridge","Lasso","RandomForestRegressor","GradientBoostingRegressor"]
+results=pd.DataFrame({'Model': Technique,'R Squared(Train)': R2_train,'R Squared(Test)': R2_test,'CV score mean(Train)': CV})
+display(results)
 
 
 
