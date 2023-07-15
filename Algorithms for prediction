@@ -1,0 +1,417 @@
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.svm import SVC
+from sklearn.metrics import accuracy_score
+
+# Load dataset
+dataset = pd.read_csv('/content/station_day.csv')
+
+
+import matplotlib
+import matplotlib .pyplot as plt
+import seaborn as sns
+import missingno as msno
+
+dataset.head()
+
+msno.bar(dataset)
+#Bar chart
+
+sns.catplot(x = "AQI_Bucket", kind= "count", palette = "ch: 2.87", height=5, aspect=1.1, data = dataset) 
+
+#drop nan values
+
+dataset = dataset.dropna(subset=["PM2.5","PM10","NO","NO2","NOx","NH3","CO","SO2","O3","Benzene","Toluene","Xylene","AQI","AQI_Bucket"])
+
+X = dataset.drop(['AQI_Bucket','StationId','Date'], axis=1)
+dataset['AQI_Bucket'].value_counts()
+
+#label encoding
+from sklearn.preprocessing import LabelEncoder
+class_labels = dataset.AQI_Bucket
+label_encoder = LabelEncoder()
+label_encoder.fit(class_labels)
+continuous_labels = label_encoder.transform(class_labels)
+print(class_labels.unique())
+print(continuous_labels)
+
+y = continuous_labels
+print(X)
+print(y)
+
+#train test spliting
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=30)
+
+#standard scalar
+from sklearn.preprocessing import StandardScaler
+xt = StandardScaler().fit_transform(X)
+
+#Support vector machines
+
+clf = SVC(kernel='linear')
+clf.kernel
+clf.fit(X_train, y_train)
+y_pred = clf.predict(X_test)
+accuracy = accuracy_score(y_test, y_pred)
+print('Accuracy:',accuracy)
+
+#performance metrics used
+from sklearn.metrics import mean_squared_error
+mse = mean_squared_error(y_test, y_pred)
+print("MEAN SQUARED ERROR =",mse)
+
+from sklearn.metrics import mean_absolute_error
+mae = mean_absolute_error(y_test, y_pred)
+print("MEAN ABSOLUTE ERROR =",mae)
+
+from sklearn.metrics import precision_score
+precision = precision_score(y_test, y_pred, average='weighted')
+print("PRECISION =",precision)
+
+from sklearn.metrics import recall_score
+recall = recall_score(y_test, y_pred,average='weighted')
+print("RECALL VALUE = ",recall)
+
+from sklearn.metrics import f1_score
+f1 = f1_score(y_test, y_pred,average='weighted')
+print("F1 SCORE =",f1)
+
+from sklearn.metrics import confusion_matrix
+confusion_matrix = confusion_matrix(y_test, y_pred)
+print(confusion_matrix)
+
+#Desicion tree classifier
+from sklearn.tree import DecisionTreeClassifier
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.4, random_state=48)
+clf = DecisionTreeClassifier(max_depth=1)
+clf.fit(X_train, y_train)
+y_pred = clf.predict(X_test)
+
+accuracy = accuracy_score(y_test, y_pred)
+acc = clf.score(X_test,y_test)
+print('Accuracy:',accuracy)
+print(acc)
+
+from sklearn.metrics import mean_squared_error
+mse = mean_squared_error(y_test, y_pred)
+print("MEAN SQUARED ERROR =",mse)
+
+from sklearn.metrics import mean_absolute_error
+mae = mean_absolute_error(y_test, y_pred)
+print("MEAN ABSOLUTE ERROR =",mae)
+
+from sklearn.metrics import precision_score
+precision = precision_score(y_test, y_pred, average='weighted')
+print("PRECISION =",precision)
+
+from sklearn.metrics import recall_score
+recall = recall_score(y_test, y_pred,average='weighted')
+print("RECALL VALUE = ",recall)
+
+from sklearn.metrics import f1_score
+f1 = f1_score(y_test, y_pred,average='weighted')
+print("F1 SCORE =",f1)
+
+from sklearn.metrics import confusion_matrix
+confusion_matrix = confusion_matrix(y_test, y_pred)
+print(confusion_matrix)
+
+#Random forest
+from sklearn.ensemble import RandomForestClassifier
+clf = RandomForestClassifier(n_estimators=100)
+clf.fit(X_train, y_train)
+y_pred = clf.predict(X_test)
+accuracy = accuracy_score(y_test, y_pred)
+print('Accuracy:',accuracy)
+
+#performance metrics
+from sklearn.metrics import mean_squared_error
+mse = mean_squared_error(y_test, y_pred)
+print("MEAN SQUARED ERROR =",mse)
+
+from sklearn.metrics import mean_absolute_error
+mae = mean_absolute_error(y_test, y_pred)
+print("MEAN ABSOLUTE ERROR =",mae)
+
+from sklearn.metrics import precision_score
+precision = precision_score(y_test, y_pred, average='weighted')
+print("PRECISION =",precision)
+
+from sklearn.metrics import recall_score
+recall = recall_score(y_test, y_pred,average='weighted')
+print("RECALL VALUE = ",recall)
+
+from sklearn.metrics import f1_score
+f1 = f1_score(y_test, y_pred,average='weighted')
+print("F1 SCORE =",f1)
+from sklearn.metrics import confusion_matrix
+confusion_matrix = confusion_matrix(y_test, y_pred)
+print(confusion_matrix)
+
+#K nearest neighbour
+
+from sklearn.neighbors import KNeighborsClassifier
+clf = KNeighborsClassifier(n_neighbors=5)
+clf.fit(X_train, y_train)
+y_pred = clf.predict(X_test)
+accuracy = accuracy_score(y_test, y_pred)
+print('Accuracy:',accuracy)
+
+#performance metrics used
+from sklearn.metrics import mean_squared_error
+mse = mean_squared_error(y_test, y_pred)
+print("MEAN SQUARED ERROR =",mse)
+
+from sklearn.metrics import mean_absolute_error
+mae = mean_absolute_error(y_test, y_pred)
+print("MEAN ABSOLUTE ERROR =",mae)
+
+from sklearn.metrics import precision_score
+precision = precision_score(y_test, y_pred, average='weighted')
+print("PRECISION =",precision)
+
+from sklearn.metrics import recall_score
+recall = recall_score(y_test, y_pred,average='weighted')
+print("RECALL VALUE = ",recall)
+
+from sklearn.metrics import f1_score
+f1 = f1_score(y_test, y_pred,average='weighted')
+print("F1 SCORE =",f1)
+from sklearn.metrics import confusion_matrix
+confusion_matrix = confusion_matrix(y_test, y_pred)
+print(confusion_matrix)
+
+#XG BOOST 
+import xgboost as xgb
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=16)
+model = xgb.XGBClassifier(objective='multi:softmax', num_class=6)
+model.fit(X_train, y_train)
+y_pred = model.predict(X_test)
+accuracy = accuracy_score(y_test, y_pred)
+print("Accuracy: %.2f%%" % (accuracy * 100.0))
+
+from sklearn.metrics import mean_squared_error
+mse = mean_squared_error(y_test, y_pred)
+print("MEAN SQUARED ERROR =",mse)
+
+from sklearn.metrics import mean_absolute_error
+mae = mean_absolute_error(y_test, y_pred)
+print("MEAN ABSOLUTE ERROR =",mae)
+
+from sklearn.metrics import precision_score
+precision = precision_score(y_test, y_pred, average='weighted')
+print("PRECISION =",precision)
+
+from sklearn.metrics import recall_score
+recall = recall_score(y_test, y_pred,average='weighted')
+print("RECALL VALUE = ",recall)
+
+from sklearn.metrics import f1_score
+f1 = f1_score(y_test, y_pred,average='weighted')
+print("F1 SCORE =",f1)
+from sklearn.metrics import confusion_matrix
+confusion_matrix = confusion_matrix(y_test, y_pred)
+print(confusion_matrix)
+
+#naive bayes
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+model = MultinomialNB()
+model.fit(X_train, y_train)
+y_pred = model.predict(X_test)
+accuracy = accuracy_score(y_test, y_pred)
+print("Accuracy: %.2f%%" % (accuracy * 100.0))
+
+from sklearn.metrics import mean_squared_error
+mse = mean_squared_error(y_test, y_pred)
+print("MEAN SQUARED ERROR =",mse)
+
+from sklearn.metrics import mean_absolute_error
+mae = mean_absolute_error(y_test, y_pred)
+print("MEAN ABSOLUTE ERROR =",mae)
+
+from sklearn.metrics import precision_score
+precision = precision_score(y_test, y_pred, average='weighted')
+print("PRECISION =",precision)
+
+from sklearn.metrics import recall_score
+recall = recall_score(y_test, y_pred,average='weighted')
+print("RECALL VALUE = ",recall)
+
+from sklearn.metrics import f1_score
+f1 = f1_score(y_test, y_pred,average='weighted')
+print("F1 SCORE =",f1)
+from sklearn.metrics import confusion_matrix
+confusion_matrix = confusion_matrix(y_test, y_pred)
+print(confusion_matrix)
+
+#voting classifier
+from sklearn.ensemble import VotingClassifier
+from sklearn.ensemble import RandomForestClassifier
+# from sklearn.ensemble import GradientBoostingClassifier
+# from sklearn.svm import SVC
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Define the individual models
+model_rf = RandomForestClassifier()
+# Create the voting ensemble classifier
+ensemble_model = VotingClassifier(estimators=[
+    ('rf', model_rf),
+    # ('gb', model_gb),
+    # ('svm', model_svm)
+], voting='hard')  
+
+ensemble_model.fit(X_train, y_train)
+y_pred = ensemble_model.predict(X_test)
+accuracy = accuracy_score(y_test, y_pred)
+print("Accuracy: %.2f%%" % (accuracy * 100.0))
+
+#stacking
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.svm import SVC
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+import numpy as np
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Define the base models
+model_rf = RandomForestClassifier()
+model_gb = GradientBoostingClassifier()
+model_svm = SVC(probability=True)
+model_rf.fit(X_train, y_train)
+model_gb.fit(X_train, y_train)
+model_svm.fit(X_train, y_train)
+pred_rf = model_rf.predict(X_train)
+pred_gb = model_gb.predict(X_train)
+pred_svm = model_svm.predict(X_train)
+
+stacking_train = np.column_stack((pred_rf, pred_gb, pred_svm))
+
+meta_model = LogisticRegression()
+meta_model.fit(stacking_train, y_train)
+
+pred_rf_test = model_rf.predict(X_test)
+pred_gb_test = model_gb.predict(X_test)
+pred_svm_test = model_svm.predict(X_test)
+
+stacking_test = np.column_stack((pred_rf_test, pred_gb_test, pred_svm_test))
+meta_pred = meta_model.predict(stacking_test)
+accuracy = accuracy_score(y_test, meta_pred)
+print("Accuracy: %.2f%%" % (accuracy * 100.0))
+
+#resampling techniques
+from imblearn.over_sampling import RandomOverSampler
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import classification_report
+from sklearn.tree import DecisionTreeClassifier
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+oversampler = RandomOverSampler(random_state=42)
+X_train_resampled, y_train_resampled = oversampler.fit_resample(X_train, y_train)
+model = DecisionTreeClassifier()
+model.fit(X_train_resampled, y_train_resampled)
+y_pred = model.predict(X_test)
+print(classification_report(y_test, y_pred))
+accuracy = accuracy_score(y_test,y_pred)
+print(accuracy*100)
+
+#clustering
+import pandas as pd
+from sklearn.cluster import KMeans
+from sklearn.preprocessing import StandardScaler
+
+columns_for_clustering = ['PM2.5', 'PM10', 'NO', 'NO2', 'NOx', 'NH3', 'CO', 'SO2', 'O3', 'Benzene', 'Toluene', 'Xylene']
+features = dataset[columns_for_clustering]
+
+scaler = StandardScaler()
+scaled_features = scaler.fit_transform(features)
+kmeans = KMeans(n_clusters=4, random_state=42)
+cluster_labels = kmeans.fit_predict(scaled_features)
+dataset['Cluster'] = cluster_labels
+print(dataset['Cluster'].value_counts())
+
+#visualization
+plt.scatter(dataset['AQI_Bucket'], dataset['NO2'], c=dataset['Cluster'], cmap='viridis')
+plt.xlabel('PM2.5')
+plt.ylabel('NO2')
+plt.title('Air Pollution Clusters')
+plt.show()
+
+#test data to test trained model
+
+#test data is
+test_data = [80.65,120.88,6.60,44.9,11,13.98,0.88,20,111.11,0.45,3.98,0.22,200]
+
+#svm model
+from sklearn.svm import SVC
+svm = SVC(kernel='linear')
+svm.fit(X_train,y_train)
+prediction = svm.predict([test_data])
+print("predicted value = ",prediction[0])
+
+label_map = {
+    0: 'Moderate',
+    1: 'poor',
+    2: 'very poor',
+    3: 'satisfactory',
+    4: 'good',
+    5: 'severe'
+}
+
+from sklearn.svm import SVC
+svm = SVC(kernel='linear')
+svm.fit(X_train,y_train)
+prediction = svm.predict([test_data])
+print("predicted value = ",prediction[0])
+
+# Convert the integer labels to string labels using the label map
+y_pred_strings = [label_map[label] for label in prediction]
+
+# Print the predicted labels as string labels
+print("Predicted labels:", y_pred_strings)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
